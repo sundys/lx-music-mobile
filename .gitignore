@@ -69,3 +69,5 @@ buck-out/
 
 # testing
 /coverage
+
+.claude/settings.local.json
