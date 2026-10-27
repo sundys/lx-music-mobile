@@ -4,11 +4,19 @@ on:
   push:
     branches:
       - master
+    # 只改更新元数据的提交不需要重新打包（更新检查读的是 publish/version.json）
+    paths-ignore:
+      - 'publish/version.json'
   workflow_dispatch:
 
 # 给 GITHUB_TOKEN 显式开通需要的写权限，避免 fork 默认 read-only 导致创建 tag / 发 release 时 403
 permissions:
   contents: write
+
+# 同一个版本只允许一次打包：避免两次推送并行构建、后一次的产物覆盖前一次的 release
+concurrency:
+  group: release-master
+  cancel-in-progress: false
 
 jobs:
   Android:
@@ -205,3 +213,24 @@ jobs:
           # artifacts/lx-music-mobile-v${{ env.PACKAGE_VERSION }}-android_5-universal.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 更新检查读取的是 publish/version.json（不是 release / tag），
+      # 发版后必须把它同步成新版本号，否则已安装的客户端永远收不到更新提示
+      - name: Update update-metadata
+        if: ${{ !contains(env.PACKAGE_VERSION, '-') }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 上一步把 MD5 追加到了 publish/changeLog.md，先还原成提交里的干净内容
+          git checkout -- publish/changeLog.md
+          node scripts/update-version-info.cjs
+          if git diff --quiet -- publish/version.json; then
+            echo "publish/version.json 无需更新"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publish/version.json
+          git commit -m "chore: 同步更新元数据至 v${PACKAGE_VERSION}"
+          git pull --rebase origin master
+          git push origin HEAD:master
