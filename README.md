@@ -1,20 +1,16 @@
-<p align="center"><a href="https://github.com/lyswhut/lx-music-mobile"><img width="200" src="https://github.com/lyswhut/lx-music-mobile/blob/master/doc/images/icon.png" alt="lx-music logo"></a></p>
+<p align="center"><a href="https://github.com/sundys/lx-music-mobile"><img width="200" src="https://raw.githubusercontent.com/sundys/lx-music-mobile/master/doc/images/icon.png" alt="lx-music logo"></a></p>
 
 <h1 align="center">LX Music 移动版</h1>
 
 <p align="center">
-  <a href="https://github.com/lyswhut/lx-music-mobile/releases"><img src="https://img.shields.io/github/release/lyswhut/lx-music-mobile" alt="Release version"></a>
-  <a href="https://github.com/lyswhut/lx-music-mobile/actions/workflows/release.yml"><img src="https://github.com/lyswhut/lx-music-mobile/workflows/Build/badge.svg" alt="Build status"></a>
-  <a href="https://github.com/lyswhut/lx-music-mobile/actions/workflows/beta-pack.yml"><img src="https://github.com/lyswhut/lx-music-mobile/workflows/Build%20Beta/badge.svg" alt="Build status"></a>
-  <a href="https://github.com/facebook/react-native"><img src="https://img.shields.io/github/package-json/dependency-version/lyswhut/lx-music-mobile/react-native/master" alt="React native version"></a>
-  <!-- <a href="https://github.com/lyswhut/lx-music-mobile/releases"><img src="https://img.shields.io/github/downloads/lyswhut/lx-music-mobile/latest/total" alt="Downloads"></a> -->
-  <a href="https://github.com/lyswhut/lx-music-mobile/tree/dev"><img src="https://img.shields.io/github/package-json/v/lyswhut/lx-music-mobile/dev" alt="Dev branch version"></a>
-  <!-- <a href="https://github.com/lyswhut/lx-music-mobile/blob/master/LICENSE"><img src="https://img.shields.io/github/license/lyswhut/lx-music-mobile" alt="License"></a> -->
+  <a href="https://github.com/sundys/lx-music-mobile/releases"><img src="https://img.shields.io/github/v/release/sundys/lx-music-mobile" alt="Release version"></a>
+  <a href="https://github.com/sundys/lx-music-mobile/actions/workflows/release.yml"><img src="https://github.com/sundys/lx-music-mobile/actions/workflows/release.yml/badge.svg" alt="Build status"></a>
+  <a href="https://github.com/facebook/react-native"><img src="https://img.shields.io/github/package-json/dependency-version/sundys/lx-music-mobile/react-native/master" alt="React native version"></a>
 </p>
 
 <p align="center">一个基于 React Native 开发的音乐软件</p>
 
-## 关于本仓库（Pride-lee / [lx-music-mobile](https://github.com/Pride-lee/lx-music-mobile)）
+## 关于本仓库（sundys / [lx-music-mobile](https://github.com/sundys/lx-music-mobile)）
 
 本仓库在 **[lyswhut/lx-music-mobile](https://github.com/lyswhut/lx-music-mobile)** 上游基础上，合并他人分支后做了功能与体验向的修改。**Release 与 Issue 请以本仓库为准**；上游更新可通过 `git remote add upstream …` 后自行 `fetch` / `merge`。
 
@@ -45,7 +41,7 @@ git merge upstream/master   # 或 git rebase upstream/master
 仓库已附带两个工作流，配合一次性配置即可让「同步上游」与「打包发版」全自动跑：
 
 - `.github/workflows/sync-upstream.yml`：每天 UTC 18:00（北京 02:00）自动 `merge upstream/master` 并推送，可在 Actions 页手动触发。
-- `.github/workflows/release.yml`：`push master` 或手动 `workflow_dispatch` 时构建多架构 APK 并发到 [Releases](https://github.com/Pride-lee/lx-music-mobile/releases)。
+- `.github/workflows/release.yml`：`package.json` 的版本号变化时（或手动 `workflow_dispatch`）构建多架构 APK 并发到 [Releases](https://github.com/sundys/lx-music-mobile/releases)。
 
 #### 一次性需要在 GitHub 配置的 Secrets
 
@@ -89,13 +85,13 @@ git merge upstream/master   # 或 git rebase upstream/master
 *桌面版项目地址：<https://github.com/lyswhut/lx-music-desktop>*<br>
 *LX Music 项目发展调整与新项目计划：https://github.com/lyswhut/lx-music-desktop/issues/1912*
 
-软件变化请查看[更新日志](https://github.com/lyswhut/lx-music-mobile/blob/master/CHANGELOG.md)。
+软件变化请查看[更新日志](https://github.com/sundys/lx-music-mobile/blob/master/CHANGELOG.md)。
 
-软件下载请查看 [GitHub Releases](https://github.com/lyswhut/lx-music-mobile/releases)。
+软件下载请查看 [GitHub Releases](https://github.com/sundys/lx-music-mobile/releases)。
 
 使用常见问题请参阅[移动版常见问题](https://lyswhut.github.io/lx-music-doc/mobile/faq)。
 
-目前本项目的原始发布地址只有 [**GitHub**](https://github.com/lyswhut/lx-music-mobile/releases)，其他渠道均为第三方转载发布，与本项目无关！
+目前本项目的原始发布地址只有 [**GitHub**](https://github.com/sundys/lx-music-mobile/releases)，其他渠道均为第三方转载发布，与本项目无关！
 
 为了提高使用门槛，本软件内的默认设置、UI 操作不以新手友好为目标，所以使用前建议先根据你的喜好浏览调整一遍软件设置，阅读一遍[音乐播放列表机制](https://lyswhut.github.io/lx-music-doc/mobile/faq/playlist)。
 
@@ -114,8 +110,8 @@ git merge upstream/master   # 或 git rebase upstream/master
 贡献代码步骤：
 
 1. 参照[源码使用方法](https://lyswhut.github.io/lx-music-doc/mobile/use-source-code)设置开发环境；
-2. 克隆本仓库代码并切换至 `dev` 分支进行开发；
-3. 提交 PR 至 `dev` 分支。
+2. 克隆本仓库代码并切换至 `master` 分支进行开发；
+3. 提交 PR 至 `master` 分支。
 
 <!--
 ## 用户界面
@@ -124,7 +120,7 @@ git merge upstream/master   # 或 git rebase upstream/master
 
 ## 项目协议
 
-本项目基于 [Apache License 2.0](https://github.com/lyswhut/lx-music-mobile/blob/master/LICENSE) 许可证发行，以下协议是对于 Apache License 2.0 的补充，如有冲突，以以下协议为准。
+本项目基于 [Apache License 2.0](https://github.com/sundys/lx-music-mobile/blob/master/LICENSE) 许可证发行，以下协议是对于 Apache License 2.0 的补充，如有冲突，以以下协议为准。
 
 ---
 
