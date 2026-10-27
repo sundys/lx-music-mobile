@@ -73,6 +73,14 @@ jobs:
           else
             echo "已合并新提交"
             echo "CHANGED=true" >> $GITHUB_ENV
+            # release.yml 只在 package.json 变化时触发；这里同步判断，避免版本号没变也重新打包
+            if git diff --quiet "$BEFORE" "$AFTER" -- package.json; then
+              echo "package.json 未变化，不触发 Release"
+              echo "VERSION_CHANGED=false" >> $GITHUB_ENV
+            else
+              echo "package.json 有变化，将触发 Release"
+              echo "VERSION_CHANGED=true" >> $GITHUB_ENV
+            fi
           fi
 
       - name: Push merged commits
@@ -80,7 +88,7 @@ jobs:
         run: git push origin master
 
       - name: Trigger Release workflow
-        if: env.CHANGED == 'true' && (github.event_name == 'schedule' || github.event.inputs.run_release == 'true')
+        if: env.VERSION_CHANGED == 'true' && (github.event_name == 'schedule' || github.event.inputs.run_release == 'true')
         env:
           GH_TOKEN: ${{ secrets.SYNC_TOKEN || secrets.GITHUB_TOKEN }}
         run: |

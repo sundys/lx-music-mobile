@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - master
-    # 只改更新元数据的提交不需要重新打包（更新检查读的是 publish/version.json）
-    paths-ignore:
-      - 'publish/version.json'
+    # 只有 package.json 变化（即版本号变更）才打包发版。
+    # 日常提交、CI 同步更新元数据、同步上游的合并都不会再触发打包；
+    # 需要重新打包时在 Actions 页面手动 Run workflow。
+    paths:
+      - 'package.json'
   workflow_dispatch:
 
 # 给 GITHUB_TOKEN 显式开通需要的写权限，避免 fork 默认 read-only 导致创建 tag / 发 release 时 403
