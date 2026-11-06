@@ -1,9 +1,11 @@
 name: Sync Upstream
 
-# 自动同步上游 lyswhut/lx-music-mobile 到本仓库 master
-# 触发方式：
-#   1) schedule：每天 UTC 18:00（北京次日 02:00）执行一次
-#   2) workflow_dispatch：在 Actions 页面手动运行，可选择是否随后触发 Release 打包
+# 同步上游 lyswhut/lx-music-mobile 到本仓库 master（仅手动触发）
+# 触发方式：workflow_dispatch —— 在 Actions 页面手动运行，可选择是否随后触发 Release 打包
+#
+# 定时同步（schedule）已于 2026-11-06 移除：上游每次发版都会改动 package.json 与
+# publish/version.json，而本 fork 必须保留这两处的定制，定时合并必然冲突失败。
+# 现在上游同步改在本地手动完成（合并后在本地解决冲突再推送）。
 #
 # 推送说明（重要）：
 #   GitHub Actions 默认 `GITHUB_TOKEN` 推送出去的 commit「不会再次触发其它 workflow」，
@@ -12,8 +14,6 @@ name: Sync Upstream
 #   此时由 PAT 推送的 commit 会按正常用户事件触发 release.yml。
 
 on:
-  schedule:
-    - cron: '0 18 * * *'
   workflow_dispatch:
     inputs:
       upstream_branch:
@@ -88,7 +88,7 @@ jobs:
         run: git push origin master
 
       - name: Trigger Release workflow
-        if: env.VERSION_CHANGED == 'true' && (github.event_name == 'schedule' || github.event.inputs.run_release == 'true')
+        if: env.VERSION_CHANGED == 'true' && github.event.inputs.run_release == 'true'
         env:
           GH_TOKEN: ${{ secrets.SYNC_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
